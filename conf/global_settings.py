@@ -29,3 +29,13 @@ LOG_DIR = 'runs'
 
 # save weights file per SAVE_EPOCH epoch
 SAVE_EPOCH = 10
+
+LEARNING_RATE = 0.01
+
+WEIGHT_DECAY = 0.0001
+
+MOMENTUM = 0.9
+
+I = 3
+I = float(I)
+

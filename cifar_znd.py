@@ -1,23 +1,25 @@
-import argparse
 import time
 
 import torch
 import torch.nn as nn
-
-from torch.optim.adam import Adam
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
-import torch.nn.functional as F
 from conf import settings
-from util import get_network, get_training_dataloader, get_test_dataloader
+from util import get_network, get_training_dataloader, get_test_dataloader, get_optimizer
 
-# from torch.utils.data import DataLoader
+I = 3
+I = float(I)
 
+model_save_dir = '/data/mnist/models'
 
+# Hyper Parameters
+# input_size = 784
+# hidden_size = 1000
+# num_classes = 10
 num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('adam_dens101.txt', title='cifar')
+logger = Logger('momentum_dens101.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -25,29 +27,23 @@ logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Va
 cifar100_training_loader = get_training_dataloader(
     settings.CIFAR100_TRAIN_MEAN,
     settings.CIFAR100_TRAIN_STD,
-    # num_workers=args.w,
-    # batch_size=args.b,
-    # shuffle=args.s
+
 )
 
 cifar100_test_loader = get_test_dataloader(
     settings.CIFAR100_TRAIN_MEAN,
     settings.CIFAR100_TRAIN_STD,
-    # num_workers=args.w,
-    # batch_size=args.b,
-    # shuffle=args.s
+
 )
 
 net = get_network('densenet121')
 device = torch.device('cuda')
-# net = get_network(args, use_gpu=args.gpu)
-# net = ResNet101()
 net = net.to(device)
 net.train()
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
-#optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
-optimizer = Adam(net.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
+
+optimizer = get_optimizer(net.parameters(), 'znd')
 start_time = time.time()
 loss_collection = []
 episode_no = 0
