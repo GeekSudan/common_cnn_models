@@ -17,7 +17,6 @@ import torch.nn.functional as F
 I = 3
 I = float(I)
 
-model_save_dir = '/data/mnist/models'
 
 # Hyper Parameters
 # input_size = 784

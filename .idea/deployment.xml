@@ -5,7 +5,7 @@
       <paths name="lab416@210.26.49.7:41521 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/media/ds" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/media/ds/common_cifar_models" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

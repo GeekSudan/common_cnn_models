@@ -13,18 +13,28 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from conf import settings
 
+LEARNING_RATE = 0.01
+
+WEIGHT_DECAY = 0.0001
+
+MOMENTUM = 0.9
+
+I = 3
+I = float(I)
+
+
 #from dataset import CIFAR100Train, CIFAR100Test
 
 def get_optimizer(parameters,optimizer):
     if optimizer == 'znd':
         from znd import ZNN2Optimizer
-        optimizer = ZNN2Optimizer(parameters, lr=settings.LEARNING_RATE, weight_decay=settings.WEIGHT_DECAY, momentum=settings.MOMENTUM, I=settings.I)
+        optimizer = ZNN2Optimizer(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM, I=I)
     elif optimizer == 'momentum':
         from torch.optim.sgd import SGD
-        optimizer = SGD(parameters, lr=settings.LEARNING_RATE, weight_decay=settings.WEIGHT_DECAY, momentum=settings.MOMENTUM)
+        optimizer = SGD(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM)
     elif optimizer == 'adam':
         from torch.optim.adam import Adam
-        optimizer = Adam(parameters, lr=settings.LEARNING_RATE, betas=(0.9, 0.999), eps=1e-08, weight_decay=settings.WEIGHT_DECAY)
+        optimizer = Adam(parameters, lr=LEARNING_RATE, betas=(0.9, 0.999), eps=1e-08, weight_decay=WEIGHT_DECAY)
     else:
         print('the optimizer name you have entered is not supported yet')
         sys.exit()
