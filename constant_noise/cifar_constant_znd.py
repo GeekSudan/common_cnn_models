@@ -19,7 +19,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('znd_dens101_2.txt', title='cifar')
+logger = Logger('znd_dens101_constant.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -43,7 +43,7 @@ net.train()
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
 
-optimizer = get_optimizer(net.parameters(), 'znd')
+optimizer = get_optimizer(net.parameters(), 'znd_constant')
 start_time = time.time()
 loss_collection = []
 episode_no = 0

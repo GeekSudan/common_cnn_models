@@ -17,7 +17,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('adam_dens101.txt', title='cifar')
+logger = Logger('adam_dens101_2.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 

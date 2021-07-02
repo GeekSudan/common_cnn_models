@@ -23,18 +23,36 @@ I = 3
 I = float(I)
 
 
-#from dataset import CIFAR100Train, CIFAR100Test
+# from dataset import CIFAR100Train, CIFAR100Test
 
-def get_optimizer(parameters,optimizer):
+def get_optimizer(parameters, optimizer):
     if optimizer == 'znd':
         from znd import ZNN2Optimizer
         optimizer = ZNN2Optimizer(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM, I=I)
+    elif optimizer == 'znd_random':
+        from random_noise.znd_random_noise import ZNNRandomOptimizer
+        optimizer = ZNNRandomOptimizer(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM, I=I)
+    elif optimizer == 'znd_constant':
+        from constant_noise.znd_constant_noise import ZNNConstant
+        optimizer = ZNNConstant(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM, I=I)
     elif optimizer == 'momentum':
         from torch.optim.sgd import SGD
         optimizer = SGD(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM)
+    elif optimizer == 'momentum_random':
+        from random_noise.momentum_random_noise import MomentumRandom
+        optimizer = MomentumRandom(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM)
+    elif optimizer == 'momentum_constant':
+        from constant_noise.momentum_constant_noise import MomentumConstant
+        optimizer = MomentumConstant(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY, momentum=MOMENTUM)
     elif optimizer == 'adam':
         from torch.optim.adam import Adam
         optimizer = Adam(parameters, lr=LEARNING_RATE, betas=(0.9, 0.999), eps=1e-08, weight_decay=WEIGHT_DECAY)
+    elif optimizer == 'adam_random':
+        from random_noise.adam_random_noise import AdamRandom
+        optimizer = AdamRandom(parameters, lr=LEARNING_RATE, betas=(0.9, 0.999), eps=1e-08, weight_decay=WEIGHT_DECAY)
+    elif optimizer == 'adam_constant':
+        from constant_noise.adam_constant_noise import AdamConstant
+        optimizer = AdamConstant(parameters, lr=LEARNING_RATE, betas=(0.9, 0.999), eps=1e-08, weight_decay=WEIGHT_DECAY)
     else:
         print('the optimizer name you have entered is not supported yet')
         sys.exit()
@@ -167,7 +185,7 @@ def get_network(network, use_gpu=True):
     else:
         print('the network name you have entered is not supported yet')
         sys.exit()
-    
+
     # if use_gpu:
     #     net = net.cuda()
 
@@ -187,19 +205,21 @@ def get_training_dataloader(mean, std, batch_size=30, num_workers=2, shuffle=Tru
     """
 
     transform_train = transforms.Compose([
-        #transforms.ToPILImage(),
+        # transforms.ToPILImage(),
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.RandomRotation(15),
         transforms.ToTensor(),
         transforms.Normalize(mean, std)
     ])
-    #cifar100_training = CIFAR100Train(path, transform=transform_train)
-    cifar100_training = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
+    # cifar100_training = CIFAR100Train(path, transform=transform_train)
+    cifar100_training = torchvision.datasets.CIFAR100(root='./data', train=True, download=True,
+                                                      transform=transform_train)
     cifar100_training_loader = DataLoader(
         cifar100_training, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
 
     return cifar100_training_loader
+
 
 def get_test_dataloader(mean, std, batch_size=30, num_workers=2, shuffle=True):
     """ return training dataloader
@@ -217,12 +237,13 @@ def get_test_dataloader(mean, std, batch_size=30, num_workers=2, shuffle=True):
         transforms.ToTensor(),
         transforms.Normalize(mean, std)
     ])
-    #cifar100_test = CIFAR100Test(path, transform=transform_test)
+    # cifar100_test = CIFAR100Test(path, transform=transform_test)
     cifar100_test = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
     cifar100_test_loader = DataLoader(
         cifar100_test, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
 
     return cifar100_test_loader
+
 
 def compute_mean_std(cifar100_dataset):
     """compute the mean and std of cifar100 dataset

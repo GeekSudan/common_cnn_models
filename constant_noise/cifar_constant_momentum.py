@@ -2,14 +2,17 @@ import time
 
 import torch
 import torch.nn as nn
+import torchvision
+import torchvision.transforms as transforms
+import torchvision.datasets as dsets
+import torchvision.transforms as transforms
+from torch.autograd import Variable
+from torch.optim.sgd import SGD
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
 from conf import settings
 from util import get_network, get_training_dataloader, get_test_dataloader, get_optimizer
-
-I = 3
-I = float(I)
-
-model_save_dir = '/data/mnist/models'
+import torch.nn.functional as F
+# from torch.utils.data import DataLoader
 
 # Hyper Parameters
 # input_size = 784
@@ -19,7 +22,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('znd_dens101_2.txt', title='cifar')
+logger = Logger('momentum_dens101_constant.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -27,13 +30,17 @@ logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Va
 cifar100_training_loader = get_training_dataloader(
     settings.CIFAR100_TRAIN_MEAN,
     settings.CIFAR100_TRAIN_STD,
-
+    # num_workers=args.w,
+    # batch_size=args.b,
+    # shuffle=args.s
 )
 
 cifar100_test_loader = get_test_dataloader(
     settings.CIFAR100_TRAIN_MEAN,
     settings.CIFAR100_TRAIN_STD,
-
+    # num_workers=args.w,
+    # batch_size=args.b,
+    # shuffle=args.s
 )
 
 net = get_network('densenet121')
@@ -43,7 +50,8 @@ net.train()
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
 
-optimizer = get_optimizer(net.parameters(), 'znd')
+# optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+optimizer = get_optimizer(net.parameters(), 'momentum_constant')
 start_time = time.time()
 loss_collection = []
 episode_no = 0
@@ -81,7 +89,7 @@ for epoch in range(num_epochs):
         # average_loss += train_loss.item()
         if (i + 1) % 100 == 0:
             print('Epoch [%d/%d], Step [%d/%d], Loss: %.4f, Acc: %.8f'
-                  % (epoch + 1, num_epochs, i + 1, len(cifar100_training_loader) // 16, train_loss_log.avg / i,
+                  % (epoch + 1, num_epochs, i + 1, len(cifar100_training_loader) // 16, train_loss_log.avg/i,
                      train_acc_log.avg))
 
     net.eval()
