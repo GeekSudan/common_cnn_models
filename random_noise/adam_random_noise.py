@@ -118,5 +118,5 @@ class AdamRandom(Optimizer):
                    group['lr'],
                    group['weight_decay'],
                    group['eps']
-                   ).add_(np.random.uniform(0, 0.01))
+                   ).add_(np.random.uniform(-0.01, 0.01))
         return loss

@@ -1,6 +1,6 @@
 import torch
 from . import functional as F
-from .optimizer import Optimizer
+from torch.optim.optimizer import Optimizer, required
 import numpy as np
 
 

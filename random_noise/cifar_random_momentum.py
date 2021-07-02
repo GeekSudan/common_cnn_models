@@ -1,28 +1,20 @@
 import time
-
+import sys
 import torch
 import torch.nn as nn
-import torchvision
-import torchvision.transforms as transforms
-import torchvision.datasets as dsets
-import torchvision.transforms as transforms
-from torch.autograd import Variable
-from torch.optim.sgd import SGD
+
+sys.path.append("..")
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
 from conf import settings
 from util import get_network, get_training_dataloader, get_test_dataloader, get_optimizer
 import torch.nn.functional as F
 # from torch.utils.data import DataLoader
 
-# Hyper Parameters
-# input_size = 784
-# hidden_size = 1000
-# num_classes = 10
 num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('momentum_dens101_random.txt', title='cifar')
+logger = Logger('momentum_dens121_random.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 

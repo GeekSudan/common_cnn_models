@@ -1,7 +1,9 @@
 import time
+import sys
 
 import torch
 import torch.nn as nn
+sys.path.append("..")
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
 from conf import settings
 from util import get_network, get_training_dataloader, get_test_dataloader, get_optimizer
@@ -11,15 +13,11 @@ I = float(I)
 
 model_save_dir = '/data/mnist/models'
 
-# Hyper Parameters
-# input_size = 784
-# hidden_size = 1000
-# num_classes = 10
 num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('znd_dens101_random.txt', title='cifar')
+logger = Logger('znd_dens121_random.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 

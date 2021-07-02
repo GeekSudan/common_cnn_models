@@ -1,23 +1,22 @@
 import argparse
+import sys
 import time
 
 import torch
 import torch.nn as nn
 
-from torch.optim.adam import Adam
+sys.path.append("..")
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
-import torch.nn.functional as F
 from conf import settings
 from util import get_network, get_training_dataloader, get_test_dataloader, get_optimizer
 
 # from torch.utils.data import DataLoader
 
-
 num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('adam_dens101_constant.txt', title='cifar')
+logger = Logger('adam_dens121_constant.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -46,7 +45,7 @@ net = net.to(device)
 net.train()
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
-#optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+# optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 optimizer = get_optimizer(net.parameters(), 'adam_constant')
 start_time = time.time()
 loss_collection = []

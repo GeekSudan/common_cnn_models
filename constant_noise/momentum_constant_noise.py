@@ -1,6 +1,6 @@
 import torch
 from torch.optim.optimizer import Optimizer, required
-import numpy as np
+
 
 
 class MomentumConstant(Optimizer):
