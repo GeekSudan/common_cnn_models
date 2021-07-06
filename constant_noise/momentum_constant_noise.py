@@ -1,6 +1,6 @@
 import torch
 from torch.optim.optimizer import Optimizer, required
-
+import numpy as np
 
 
 class MomentumConstant(Optimizer):
@@ -37,7 +37,7 @@ class MomentumConstant(Optimizer):
         if closure is not None:
             with torch.enable_grad():
                 loss = closure()
-
+        count = 0
         for group in self.param_groups:
             weight_decay = group['weight_decay']
             momentum = group['momentum']
@@ -60,7 +60,12 @@ class MomentumConstant(Optimizer):
                     if nesterov:
                         d_p = d_p.add(buf, alpha=momentum)
                     else:
-                        d_p = buf.add_(0.01)
+                        if count == 0:
+                            d_p = buf.add_(0.01)
+                        else:
+                            d_p = buf
+                    count += 1
+
                         # d_p = buf.add_(np.random.uniform(0, 0.01))
 
                 p.add_(d_p, alpha=-group['lr'])

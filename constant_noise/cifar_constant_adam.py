@@ -16,7 +16,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('adam_dens121_constant.txt', title='cifar')
+logger = Logger('adam_resnet18_constant.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -32,20 +32,18 @@ cifar100_training_loader = get_training_dataloader(
 cifar100_test_loader = get_test_dataloader(
     settings.CIFAR100_TRAIN_MEAN,
     settings.CIFAR100_TRAIN_STD,
-    # num_workers=args.w,
-    # batch_size=args.b,
-    # shuffle=args.s
+
 )
 
-net = get_network('densenet121')
+net = get_network('resnet18')
 device = torch.device('cuda')
-# net = get_network(args, use_gpu=args.gpu)
-# net = ResNet101()
+
 net = net.to(device)
 net.train()
+
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
-# optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+
 optimizer = get_optimizer(net.parameters(), 'adam_constant')
 start_time = time.time()
 loss_collection = []

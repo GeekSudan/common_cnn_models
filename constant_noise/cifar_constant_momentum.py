@@ -18,7 +18,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('momentum_dens121_constant.txt', title='cifar')
+logger = Logger('momentum_resnet18_constant.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -39,7 +39,7 @@ cifar100_test_loader = get_test_dataloader(
     # shuffle=args.s
 )
 
-net = get_network('densenet121')
+net = get_network('resnet18')
 device = torch.device('cuda')
 net = net.to(device)
 net.train()

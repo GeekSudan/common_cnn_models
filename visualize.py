@@ -2,19 +2,19 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
 
-znd = pd.read_table('znd_dens101.txt')
+znd = pd.read_table('znd_dens101_2.txt')
 znd_train_loss = znd["Train Loss"]
 znd_test_loss = znd["Valid Loss"]
 znd_train_accuracy = znd["Train Acc."]
 znd_test_accuracy = znd["Valid Acc."]
 
-momentum = pd.read_table('momentum_dens101.txt')
+momentum = pd.read_table('momentum_dens101_2.txt')
 mom_train_loss = momentum["Train Loss"]
 mom_test_loss = momentum["Valid Loss"]
 mom_train_accuracy = momentum["Train Acc."]
 mom_test_accuracy = momentum["Valid Acc."]
 
-adam = pd.read_table('adam_dens101.txt')
+adam = pd.read_table('adam_dens101_2.txt')
 adam_train_loss = adam["Train Loss"]
 adam_test_loss = adam["Valid Loss"]
 adam_train_accuracy = adam["Train Acc."]

@@ -1,9 +1,11 @@
 import argparse
 import time
+import sys
 
 import torch
 import torch.nn as nn
 
+sys.path.append("..")
 from torch.optim.adam import Adam
 from utils import Logger, AverageMeter, accuracy, mkdir_p, savefig
 import torch.nn.functional as F
@@ -17,7 +19,7 @@ num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('adam_dens121_random.txt', title='cifar')
+logger = Logger('adam_resnet18_random.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -38,7 +40,7 @@ cifar100_test_loader = get_test_dataloader(
     # shuffle=args.s
 )
 
-net = get_network('densenet121')
+net = get_network('resnet18')
 device = torch.device('cuda')
 # net = get_network(args, use_gpu=args.gpu)
 # net = ResNet101()
@@ -46,7 +48,7 @@ net = net.to(device)
 net.train()
 # # Loss and Optimizer
 criterion = nn.CrossEntropyLoss()
-#optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
+# optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
 optimizer = get_optimizer(net.parameters(), 'adam_random')
 start_time = time.time()
 loss_collection = []

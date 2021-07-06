@@ -11,13 +11,12 @@ from util import get_network, get_training_dataloader, get_test_dataloader, get_
 I = 3
 I = float(I)
 
-model_save_dir = '/data/mnist/models'
 
 num_epochs = 100
 batch_size = 30
 learning_rate = 0.01
 
-logger = Logger('znd_dens121_random.txt', title='cifar')
+logger = Logger('znd_resnet18_random.txt', title='cifar')
 
 logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.'])
 
@@ -34,7 +33,7 @@ cifar100_test_loader = get_test_dataloader(
 
 )
 
-net = get_network('densenet121')
+net = get_network('resnet18')
 device = torch.device('cuda')
 net = net.to(device)
 net.train()

@@ -50,6 +50,7 @@ class ZNN2Optimizer(Optimizer):
                     continue
                 d_p = p.grad
                 if weight_decay != 0:
+                    # gradient = gradient + theta * weight_decay
                     d_p = d_p.add(p, alpha=weight_decay)
                 if momentum != 0:
                     param_state = self.state[p]
